@@ -28,26 +28,46 @@ public class BreadBox
 {
     public static final String MODID = "breadbox";
     public static final String NAME = "Bread Box";
-    public static final String VERSION = "1.0";
+    public static final String VERSION = "1.1";
     
-    public static final Block BREAD_BOX = new BlockBreadBox("bread_box", Material.WOOD);
+    public static final Block BREAD_BOX_OAK = new BlockBreadBox("bread_box_oak", Material.WOOD);
+    public static final Block BREAD_BOX_SPRUCE = new BlockBreadBox("bread_box_spruce", Material.WOOD);
+    public static final Block BREAD_BOX_BIRCH = new BlockBreadBox("bread_box_birch", Material.WOOD);
+    public static final Block BREAD_BOX_JUNGLE = new BlockBreadBox("bread_box_jungle", Material.WOOD);
+    public static final Block BREAD_BOX_ACACIA = new BlockBreadBox("bread_box_acacia", Material.WOOD);
+    public static final Block BREAD_BOX_DARK = new BlockBreadBox("bread_box_dark", Material.WOOD);
     
     @SubscribeEvent
 	public static void onBlockRegister(RegistryEvent.Register<Block> event)
 	{
-		event.getRegistry().register(BREAD_BOX);
+		event.getRegistry().register(BREAD_BOX_OAK);
+		event.getRegistry().register(BREAD_BOX_SPRUCE);
+		event.getRegistry().register(BREAD_BOX_BIRCH);
+		event.getRegistry().register(BREAD_BOX_JUNGLE);
+		event.getRegistry().register(BREAD_BOX_ACACIA);
+		event.getRegistry().register(BREAD_BOX_DARK);
 	}
     
     @SubscribeEvent
 	public static void onItemRegister(RegistryEvent.Register<Item> event)
 	{
-		event.getRegistry().register(new ItemBlock(BREAD_BOX).setRegistryName(BREAD_BOX.getRegistryName()));
+		event.getRegistry().register(new ItemBlock(BREAD_BOX_OAK).setRegistryName(BREAD_BOX_OAK.getRegistryName()));
+		event.getRegistry().register(new ItemBlock(BREAD_BOX_SPRUCE).setRegistryName(BREAD_BOX_SPRUCE.getRegistryName()));
+		event.getRegistry().register(new ItemBlock(BREAD_BOX_BIRCH).setRegistryName(BREAD_BOX_BIRCH.getRegistryName()));
+		event.getRegistry().register(new ItemBlock(BREAD_BOX_JUNGLE).setRegistryName(BREAD_BOX_JUNGLE.getRegistryName()));
+		event.getRegistry().register(new ItemBlock(BREAD_BOX_ACACIA).setRegistryName(BREAD_BOX_ACACIA.getRegistryName()));
+		event.getRegistry().register(new ItemBlock(BREAD_BOX_DARK).setRegistryName(BREAD_BOX_DARK.getRegistryName()));
 	}
     
     @SubscribeEvent
 	public static void onModelRegister(ModelRegistryEvent event)
 	{
-    	ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(BREAD_BOX), 0, new ModelResourceLocation(BREAD_BOX.getRegistryName(), "inventory"));	
+    	ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(BREAD_BOX_OAK), 0, new ModelResourceLocation(BREAD_BOX_OAK.getRegistryName(), "inventory"));
+    	ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(BREAD_BOX_SPRUCE), 0, new ModelResourceLocation(BREAD_BOX_SPRUCE.getRegistryName(), "inventory"));	
+    	ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(BREAD_BOX_BIRCH), 0, new ModelResourceLocation(BREAD_BOX_BIRCH.getRegistryName(), "inventory"));	
+    	ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(BREAD_BOX_JUNGLE), 0, new ModelResourceLocation(BREAD_BOX_JUNGLE.getRegistryName(), "inventory"));	
+    	ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(BREAD_BOX_ACACIA), 0, new ModelResourceLocation(BREAD_BOX_ACACIA.getRegistryName(), "inventory"));	
+    	ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(BREAD_BOX_DARK), 0, new ModelResourceLocation(BREAD_BOX_DARK.getRegistryName(), "inventory"));	
 	}
 
     @EventHandler

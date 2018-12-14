@@ -39,7 +39,7 @@ public class RenderBreadBox extends TileEntitySpecialRenderer<TileEntityBreadBox
 			
 			IBlockState state = te.getWorld().getBlockState(te.getPos());
 			
-			if(state.getBlock() == BreadBox.BREAD_BOX && state.getValue(BlockBreadBox.FACING) == EnumFacing.NORTH)
+			if(isBreadBox(state) && state.getValue(BlockBreadBox.FACING) == EnumFacing.NORTH)
 			{
 				if(te.breadCount >= 1)
 				{
@@ -86,7 +86,7 @@ public class RenderBreadBox extends TileEntitySpecialRenderer<TileEntityBreadBox
 				}
 			}
 			
-			if(state.getBlock() == BreadBox.BREAD_BOX && state.getValue(BlockBreadBox.FACING) == EnumFacing.SOUTH)
+			if(isBreadBox(state) && state.getValue(BlockBreadBox.FACING) == EnumFacing.SOUTH)
 			{
 				if(te.breadCount >= 1)
 				{
@@ -133,7 +133,7 @@ public class RenderBreadBox extends TileEntitySpecialRenderer<TileEntityBreadBox
 				}
 			}
 			
-			if(state.getBlock() == BreadBox.BREAD_BOX && state.getValue(BlockBreadBox.FACING) == EnumFacing.WEST)
+			if(isBreadBox(state) && state.getValue(BlockBreadBox.FACING) == EnumFacing.WEST)
 			{
 				if(te.breadCount >= 1)
 				{
@@ -158,7 +158,7 @@ public class RenderBreadBox extends TileEntitySpecialRenderer<TileEntityBreadBox
 						if(te.breadCount >= 3)
 						{
 							GlStateManager.pushMatrix();
-							GlStateManager.translate(x + 0.53, y + 0.121, z + 0.53);
+							GlStateManager.translate(x + 0.5325, y + 0.121, z + 0.53);
 							GlStateManager.rotate(90F, 1, 0, 0);
 							GlStateManager.rotate(33F, 0, 0, 1);
 							GlStateManager.scale(0.7, 0.7, 0.7);	
@@ -168,7 +168,7 @@ public class RenderBreadBox extends TileEntitySpecialRenderer<TileEntityBreadBox
 							if(te.breadCount == 4)
 							{
 								GlStateManager.pushMatrix();
-								GlStateManager.translate(x + 0.51, y + 0.1646, z + 0.54);
+								GlStateManager.translate(x + 0.515, y + 0.1646, z + 0.54);
 								GlStateManager.rotate(90F, 1, 0, 0);
 								GlStateManager.rotate(40F, 0, 0, 1);
 								GlStateManager.scale(0.7, 0.7, 0.7);
@@ -180,7 +180,7 @@ public class RenderBreadBox extends TileEntitySpecialRenderer<TileEntityBreadBox
 				}
 			}
 			
-			if(state.getBlock() == BreadBox.BREAD_BOX && state.getValue(BlockBreadBox.FACING) == EnumFacing.EAST)
+			if(isBreadBox(state) && state.getValue(BlockBreadBox.FACING) == EnumFacing.EAST)
 			{
 				if(te.breadCount >= 1)
 				{
@@ -205,7 +205,7 @@ public class RenderBreadBox extends TileEntitySpecialRenderer<TileEntityBreadBox
 						if(te.breadCount >= 3)
 						{
 							GlStateManager.pushMatrix();
-							GlStateManager.translate(x + 0.48, y + 0.121, z + 0.44);
+							GlStateManager.translate(x + 0.4675, y + 0.121, z + 0.44);
 							GlStateManager.rotate(90F, 1, 0, 0);
 							GlStateManager.rotate(213F, 0, 0, 1);
 							GlStateManager.scale(0.7, 0.7, 0.7);	
@@ -215,7 +215,7 @@ public class RenderBreadBox extends TileEntitySpecialRenderer<TileEntityBreadBox
 							if(te.breadCount == 4)
 							{
 								GlStateManager.pushMatrix();
-								GlStateManager.translate(x + 0.49, y + 0.1646, z + 0.45);
+								GlStateManager.translate(x + 0.485, y + 0.1646, z + 0.45);
 								GlStateManager.rotate(90F, 1, 0, 0);
 								GlStateManager.rotate(220F, 0, 0, 1);
 								GlStateManager.scale(0.7, 0.7, 0.7);
@@ -230,5 +230,14 @@ public class RenderBreadBox extends TileEntitySpecialRenderer<TileEntityBreadBox
 			GlStateManager.disableRescaleNormal();
 			GlStateManager.disableBlend();
 		}
+	}
+	
+	private boolean isBreadBox(IBlockState state)
+	{
+		if(state.getBlock() == BreadBox.BREAD_BOX_OAK || state.getBlock() == BreadBox.BREAD_BOX_SPRUCE || state.getBlock() == BreadBox.BREAD_BOX_BIRCH || state.getBlock() == BreadBox.BREAD_BOX_JUNGLE || state.getBlock() == BreadBox.BREAD_BOX_ACACIA || state.getBlock() == BreadBox.BREAD_BOX_DARK)
+		{
+			return true;
+		}
+		return false;
 	}
 }

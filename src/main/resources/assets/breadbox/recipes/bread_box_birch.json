@@ -1,0 +1,30 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "XXX",
+        "DDD"
+    ],
+       
+       "key":
+        {
+            "X":
+            {
+                "item": "minecraft:birch_stairs"
+            },
+            
+            "D":
+            {
+                "item": "minecraft:planks",
+                "data": 2
+            }
+           
+       },
+       
+       "result":
+       {
+            "item": "breadbox:bread_box_birch",
+            "count": 1
+        }        
+}

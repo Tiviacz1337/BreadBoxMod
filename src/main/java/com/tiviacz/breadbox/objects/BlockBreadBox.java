@@ -67,21 +67,24 @@ public class BlockBreadBox extends Block implements ITileEntityProvider
 			
 			if(state.getValue(OPEN))
 			{
-				if(helditem.getItem() == Items.BREAD)
+				if(!playerIn.isSneaking())
 				{
-					if(!te.isFull() && !playerIn.isSneaking())
+					if(helditem.getItem() == Items.BREAD)
 					{
-						helditem.shrink(1);
-						te.addBread();
+						if(!te.isFull())
+						{
+							helditem.shrink(1);
+							te.addBread();
+						}
 					}
-				}
-				
-				if(helditem.isEmpty())
-				{
-					if(!te.isEmpty() && !playerIn.isSneaking())
+					
+					else if(helditem.isEmpty())
 					{
-						playerIn.inventory.addItemStackToInventory(new ItemStack(Items.BREAD));
-						te.removeBread();
+						if(!te.isEmpty())
+						{
+							playerIn.inventory.addItemStackToInventory(new ItemStack(Items.BREAD));
+							te.removeBread();
+						}
 					}
 				}
 			}

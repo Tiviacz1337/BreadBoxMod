@@ -11,20 +11,20 @@
         {
             "X":
             {
-                "item": "minecraft:oak_stairs"
+                "item": "minecraft:jungle_stairs"
             },
             
             "D":
             {
                 "item": "minecraft:planks",
-                "data": 0
+                "data": 3
             }
            
        },
        
        "result":
        {
-            "item": "breadbox:bread_box",
+            "item": "breadbox:bread_box_jungle",
             "count": 1
         }        
 }

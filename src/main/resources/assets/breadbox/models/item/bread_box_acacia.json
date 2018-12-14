@@ -1,5 +1,5 @@
 {
-    "parent": "breadbox:block/bread_box_close",
+    "parent": "breadbox:block/bread_box_acacia_close",
     "display": {
         "gui": {
             "rotation": [ 30, 225, 0 ],
