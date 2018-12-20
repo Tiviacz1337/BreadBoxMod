@@ -1,6 +1,12 @@
 package com.tiviacz.breadbox.objects;
 
+import com.tiviacz.breadbox.BreadBox;
+import com.tiviacz.breadbox.handlers.ConfigHandler;
+import com.tiviacz.breadbox.init.ModBlocks;
+import com.tiviacz.breadbox.objects.tileentity.TileEntityBreadBox;
+
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -12,13 +18,16 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
@@ -28,8 +37,10 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 
-public class BlockBreadBox extends Block implements ITileEntityProvider
+public class BlockBreadBox extends BlockContainer implements ITileEntityProvider
 {
 	public static final PropertyBool OPEN = PropertyBool.create("open");
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
@@ -47,7 +58,9 @@ public class BlockBreadBox extends Block implements ITileEntityProvider
 		setHardness(1.0F);
 		setResistance(3.0F);
 		setHarvestLevel("hand", 0);
-		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(OPEN, false)); 
+		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(OPEN, false));
+		
+		ModBlocks.BLOCKS.add(this);
 	}
 	
 	@Override
@@ -65,9 +78,10 @@ public class BlockBreadBox extends Block implements ITileEntityProvider
 			ItemStack helditem = playerIn.getHeldItem(hand);
 			TileEntityBreadBox te = (TileEntityBreadBox)worldIn.getTileEntity(pos);
 			
-			if(state.getValue(OPEN))
+			if(state.getValue(OPEN) && !playerIn.isSneaking())
 			{
-				if(!playerIn.isSneaking())
+				playerIn.openGui(BreadBox.INSTANCE, ConfigHandler.breadBoxGuiID, worldIn, pos.getX(), pos.getY(), pos.getZ());
+			/*	if(!playerIn.isSneaking())
 				{
 					if(helditem.getItem() == Items.BREAD)
 					{
@@ -86,7 +100,7 @@ public class BlockBreadBox extends Block implements ITileEntityProvider
 							te.removeBread();
 						}
 					}
-				}
+				} */
 			}
 		}
 		
@@ -105,7 +119,7 @@ public class BlockBreadBox extends Block implements ITileEntityProvider
         }
     }
 	
-	@Override
+/*	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) 
 	{
 		TileEntityBreadBox te = (TileEntityBreadBox)worldIn.getTileEntity(pos);
@@ -120,6 +134,25 @@ public class BlockBreadBox extends Block implements ITileEntityProvider
 			}
 		}
 		super.breakBlock(worldIn, pos, state);
+	} */
+	
+	@Override
+	public void breakBlock(World world, BlockPos pos, IBlockState state) 
+	{
+		TileEntityBreadBox tile = (TileEntityBreadBox)world.getTileEntity(pos);
+		IItemHandler itemHandler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
+
+		for(int i = 0; i < itemHandler.getSlots(); i++)
+		{
+			ItemStack stack = itemHandler.getStackInSlot(i);
+			
+			if(!stack.isEmpty()) 
+			{
+				EntityItem item = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack);
+				world.spawnEntity(item);
+			}
+		}
+		super.breakBlock(world, pos, state);
 	}
 	
 	@Override
@@ -164,6 +197,12 @@ public class BlockBreadBox extends Block implements ITileEntityProvider
     {
         return BlockFaceShape.UNDEFINED;
     }
+	
+	@Override
+	public EnumBlockRenderType getRenderType(IBlockState state) 
+	{
+		return EnumBlockRenderType.MODEL;
+	}
 	
 	@Override
     public IBlockState getStateFromMeta(int meta)

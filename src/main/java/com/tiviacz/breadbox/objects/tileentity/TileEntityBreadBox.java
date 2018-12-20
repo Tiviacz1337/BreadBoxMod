@@ -1,17 +1,62 @@
-package com.tiviacz.breadbox.objects;
+package com.tiviacz.breadbox.objects.tileentity;
+
+import javax.annotation.Nullable;
+
+import com.tiviacz.breadbox.BreadBox;
+import com.tiviacz.breadbox.objects.container.ContainerBreadBox;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ItemStackHelper;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityLockableLoot;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.ItemStackHandler;
 
 public class TileEntityBreadBox extends TileEntity
-{
-	public int breadCount = 0;
-	public int maxBreadCount = 4;
+{	
+	public ItemStackHandler inventory = new ItemStackHandler(4);
+	
+	@Override
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) 
+	{
+		return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+	}
+	
+	@Nullable
+	@Override
+	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) 
+	{
+		return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ? (T)inventory : super.getCapability(capability, facing);
+	}
+	
+	 @Override
+	 public NBTTagCompound writeToNBT(NBTTagCompound compound)
+	 {
+		 super.writeToNBT(compound);
+		 compound.setTag("inventory", inventory.serializeNBT());
+		 return compound;
+	} 
+
+	@Override
+	public void readFromNBT(NBTTagCompound compound)
+	{
+		super.readFromNBT(compound);
+		inventory.deserializeNBT(compound.getCompoundTag("inventory"));
+	}
 
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket()
@@ -24,13 +69,13 @@ public class TileEntityBreadBox extends TileEntity
 	{
 	    handleUpdateTag(pkt.getNbtCompound());
 	}
-
+ 
 	@Override
 	public NBTTagCompound getUpdateTag()
 	{
 	    NBTTagCompound tag = super.getUpdateTag();
 	    
-	    tag.setInteger("BreadCount", this.breadCount);
+	    tag.setTag("inventory", inventory.serializeNBT());
 	    
 	    return tag;
 	}
@@ -39,8 +84,21 @@ public class TileEntityBreadBox extends TileEntity
 	public void handleUpdateTag(NBTTagCompound tag)
     {
 		super.handleUpdateTag(tag);
-		this.breadCount = tag.getInteger("BreadCount");
+		inventory.deserializeNBT(tag.getCompoundTag("inventory"));
     } 
+	
+	@Override
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate)
+    {
+        return (oldState.getBlock() != newSate.getBlock());
+    }
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() 
+	{
+		return new AxisAlignedBB(getPos(), getPos().add(1, 1, 1));
+	}
+	/*
 	
 	public boolean addBread()
 	{
@@ -111,18 +169,5 @@ public class TileEntityBreadBox extends TileEntity
 	{
 		super.readFromNBT(compound);
 		this.breadCount = compound.getInteger("BreadCount");
-	}
-	
-	private void notifyBlockUpdate() 
-	{
-		final IBlockState state = getWorld().getBlockState(getPos());
-		getWorld().notifyBlockUpdate(getPos(), state, state, 3);
-	}
-	
-	@Override
-	public void markDirty() 
-	{
-		super.markDirty();
-		notifyBlockUpdate();
-	} 
+	} */
 }
