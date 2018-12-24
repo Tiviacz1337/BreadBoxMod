@@ -3,7 +3,7 @@
   "modid": "breadbox",
   "name": "Bread Box Mod",
   "description": "Mod, which adds simple bread box to Minecraft.",
-  "version": "1.2",
+  "version": "1.2.1",
   "mcversion": "1.12.2",
   "url": "",
   "updateUrl": "",

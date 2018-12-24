@@ -46,7 +46,7 @@ public class ContainerBreadBox extends Container
 		for(int x = 0; x < 9; x++)
 		{
 			this.addSlotToContainer(new Slot(playerInv, x, 8 + x*18, 103));
-		}								
+		}							
 		
 	}
 	

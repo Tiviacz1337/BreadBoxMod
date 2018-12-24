@@ -17,5 +17,5 @@ public class ModBlocks
 	public static final Block BREAD_BOX_BIRCH = new BlockBreadBox("bread_box_birch", Material.WOOD);
 	public static final Block BREAD_BOX_JUNGLE = new BlockBreadBox("bread_box_jungle", Material.WOOD);
 	public static final Block BREAD_BOX_ACACIA = new BlockBreadBox("bread_box_acacia", Material.WOOD);
-	public static final Block BREAD_BOX_DARK = new BlockBreadBox("bread_box_dark", Material.WOOD);
+	public static final Block BREAD_BOX_DARK = new BlockBreadBox("bread_box_dark", Material.WOOD); 
 }
